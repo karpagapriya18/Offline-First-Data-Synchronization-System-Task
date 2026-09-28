@@ -1,0 +1,75 @@
+{
+  "info": {
+    "name": "Offline First Sync System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8000" },
+    { "key": "token", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/auth/register",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\":\"Demo User\",\"email\":\"demo@example.com\",\"password\":\"password123\"}"
+        }
+      }
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/auth/login",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"email\":\"demo@example.com\",\"password\":\"password123\"}"
+        }
+      }
+    },
+    {
+      "name": "Sync Changes",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{baseUrl}}/sync",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"strategy\":\"manual\",\"changes\":[{\"operation_id\":\"op-123\",\"client_id\":\"record-123\",\"operation\":\"create\",\"title\":\"Offline note\",\"content\":\"Created offline\",\"version\":0}]}"
+        }
+      }
+    },
+    {
+      "name": "Dashboard",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{baseUrl}}/dashboard"
+      }
+    },
+    {
+      "name": "Conflicts",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{baseUrl}}/conflicts"
+      }
+    },
+    {
+      "name": "Sync History",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{baseUrl}}/sync/history"
+      }
+    }
+  ]
+}
